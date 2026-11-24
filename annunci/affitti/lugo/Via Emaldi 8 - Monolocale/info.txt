@@ -1,0 +1,10 @@
+sottotitolo: Monolocale 35 mq, arredato, posto auto
+prezzo: € 450/mese
+indirizzo: Via Emaldi 8, Lugo (RA)
+classe_energetica: E
+mq: 35
+camere: 1
+---
+Monolocale arredato ideale per studenti o lavoratori. Composto da zona giorno con angolo cottura attrezzato, zona notte e bagno con doccia.
+
+Incluso posto auto nel cortile condominiale. Spese condominiali contenute. Disponibile da subito.

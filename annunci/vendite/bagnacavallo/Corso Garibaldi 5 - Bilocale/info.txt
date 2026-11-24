@@ -1,0 +1,10 @@
+sottotitolo: Bilocale 55 mq, 1 camera, 1 bagno, terrazzo
+prezzo: € 89.000
+indirizzo: Corso Garibaldi 5, Bagnacavallo (RA)
+classe_energetica: D
+mq: 55
+camere: 1
+---
+Grazioso bilocale nel centro storico di Bagnacavallo, a pochi passi da tutti i servizi. L'appartamento è composto da soggiorno con cucina a vista, camera matrimoniale e bagno.
+
+Terrazzo con vista sui tetti del centro. Recentemente ristrutturato con finiture di pregio.

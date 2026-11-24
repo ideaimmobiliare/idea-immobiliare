@@ -1,0 +1,10 @@
+sottotitolo: Trilocale 85 mq, 2 camere, 1 bagno, balcone, garage
+prezzo: € 135.000
+indirizzo: Via Roma 12, Lugo (RA)
+classe_energetica: C
+mq: 85
+camere: 2
+---
+Luminoso appartamento al secondo piano in zona residenziale tranquilla. L'immobile si compone di ingresso, soggiorno con angolo cottura, due camere da letto, bagno finestrato e balcone.
+
+Completano la proprietà un garage e una cantina al piano interrato. Riscaldamento autonomo a metano. Ideale per famiglie o giovani coppie.
