@@ -18,10 +18,13 @@ SITE_TITLE = "Idea Immobiliare"
 SITE_OWNER = "di Mordini Fabrizio"
 SITE_TAGLINE = "La tua casa in Romagna"
 
-CONTACT_ADDRESS = "Via Alberto Acquacalda 6/6, 48022 Lugo (RA)"
-CONTACT_EMAIL = "info.ideaimmobiliarelugo@gmail.com"
-CONTACT_PHONE = ""   # Da compilare
-CONTACT_HOURS = ""   # Da compilare
+CONTACT_ADDRESS = "Via A. Acquacalda 6/6, Lugo (RA)"
+CONTACT_EMAIL = "ideaimmobiliare2@gmail.com"
+CONTACT_PHONE = "0545 27367"
+CONTACT_CELL = "335 812 7996"
+CONTACT_HOURS_1 = "Lun — Ven  8:00–12:30 / 15:00–18:30"
+CONTACT_HOURS_2 = "Sab  8:00–12:00"
+CONTACT_PIVA = "01040800391"
 
 CHI_SIAMO = (
     "Idea Immobiliare è un'agenzia immobiliare di Lugo che offre supporto "
@@ -103,6 +106,7 @@ def parse_info_txt(filepath, errors):
         'classe_energetica': '',
         'mq': '',
         'camere': '',
+        'bagni': '',
         'descrizione': '',
     }
 
@@ -245,7 +249,7 @@ def html_head(title, depth=0):
     <title>{title} | Idea Immobiliare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="{p}assets/style.css">
     <link rel="icon" href="{p}assets/logo.jpg" type="image/jpeg">
@@ -260,66 +264,56 @@ def html_nav(depth=0, active=''):
 
     return f"""
 <nav class="navbar" id="navbar">
-    <div class="nav-container">
-        <a href="{p}index.html" class="nav-logo">
-            <img src="{p}assets/logo.jpg" alt="Idea Immobiliare">
-            <div class="nav-logo-text">
-                <span class="nav-title">Idea Immobiliare</span>
-                <span class="nav-subtitle">{SITE_OWNER}</span>
-            </div>
+    <div class="nav-inner">
+        <a href="{p}index.html" class="nav-brand">
+            <img src="{p}assets/logo.jpg" alt="Idea Immobiliare" class="nav-brand-logo">
+            <span class="nav-brand-text">Idea Immobiliare</span>
         </a>
-        <div class="nav-search-wrapper">
-            <input type="text" id="search-input" class="nav-search" placeholder="Cerca annunci..." autocomplete="off" data-base="{p}">
-            <div id="search-results" class="search-dropdown"></div>
+        <div class="nav-links" id="nav-links">
+            <a href="{p}index.html" data-route="home"{ac('home')}>Home</a>
+            <a href="{p}vendite/index.html" data-route="vendite"{ac('vendite')}>Vendite</a>
+            <a href="{p}affitti/index.html" data-route="affitti"{ac('affitti')}>Affitti</a>
+            <a href="{p}contatti/index.html" data-route="info"{ac('contatti')}>Info</a>
         </div>
         <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="{p}index.html"{ac('home')}>Home</a></li>
-            <li><a href="{p}vendite/index.html"{ac('vendite')}>Vendite</a></li>
-            <li><a href="{p}affitti/index.html"{ac('affitti')}>Affitti</a></li>
-            <li><a href="{p}contatti/index.html"{ac('contatti')}>Contatti</a></li>
-        </ul>
     </div>
 </nav>"""
 
 
 def html_footer(depth=0):
     p = rel(depth)
-    phone = (
-        f'<p><a href="tel:{CONTACT_PHONE}">{CONTACT_PHONE}</a></p>'
-        if CONTACT_PHONE
-        else '<p><em>In arrivo</em></p>'
-    )
-    hours = (
-        f'<p>{CONTACT_HOURS}</p>'
-        if CONTACT_HOURS
-        else '<p><em>In arrivo</em></p>'
-    )
     year = datetime.now().year
 
     return f"""
 <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-col footer-brand">
-            <img src="{p}assets/logo.jpg" alt="Idea Immobiliare" class="footer-logo">
-            <p class="footer-name">Idea Immobiliare</p>
-            <p class="footer-owner">{SITE_OWNER}</p>
+    <div class="footer-inner">
+        <div class="footer-col">
+            <a href="{p}index.html" class="footer-brand">Idea Immobiliare</a>
+            <p class="footer-desc">{CHI_SIAMO[:120]}…</p>
+        </div>
+        <div class="footer-col">
+            <h4>Pagine</h4>
+            <ul>
+                <li><a href="{p}index.html">Home</a></li>
+                <li><a href="{p}vendite/index.html">Vendite</a></li>
+                <li><a href="{p}affitti/index.html">Affitti</a></li>
+                <li><a href="{p}contatti/index.html">Info &amp; Contatti</a></li>
+            </ul>
         </div>
         <div class="footer-col">
             <h4>Contatti</h4>
             <p>{CONTACT_ADDRESS}</p>
+            <p>Tel. <a href="tel:{CONTACT_PHONE.replace(' ', '')}">{CONTACT_PHONE}</a></p>
+            <p>Cell. <a href="tel:{CONTACT_CELL.replace(' ', '')}">{CONTACT_CELL}</a></p>
             <p><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></p>
-            {phone}
-        </div>
-        <div class="footer-col">
-            <h4>Orari</h4>
-            {hours}
+            <p class="footer-hours">{CONTACT_HOURS_1}<br>{CONTACT_HOURS_2}</p>
+            <p class="footer-piva">P.IVA {CONTACT_PIVA}</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; {year} Idea Immobiliare di Mordini Fabrizio. Tutti i diritti riservati.</p>
+        <p>&copy; {year} Idea Immobiliare {SITE_OWNER}. Tutti i diritti riservati.</p>
     </div>
 </footer>"""
 
@@ -333,38 +327,60 @@ def html_end(depth=0):
 </html>"""
 
 
-# ─── Card annuncio ───────────────────────────────────────────────
+# ─── Card annuncio (stile artefatto) ────────────────────────────
 
 def annuncio_card(a, depth=0):
     p = rel(depth)
     f = a['fields']
-
-    if a['images']:
-        img_src = f"{p}img/{a['tipo']}/{a['comune_slug']}/{a['slug']}/{a['images'][0].name}"
-        img = f'<img src="{img_src}" alt="{a["titolo"]}" loading="lazy">'
-    else:
-        img = '<div class="card-noimg">Nessuna foto</div>'
-
-    prezzo = f'<span class="card-price">{f["prezzo"]}</span>' if f['prezzo'] else ''
-    sub = f'<p class="card-sub">{f["sottotitolo"]}</p>' if f['sottotitolo'] else ''
-    badge_text = "Vendita" if a['tipo'] == 'vendite' else "Affitto"
     link = f"{p}{a['tipo']}/{a['comune_slug']}/{a['slug']}/index.html"
+    badge_text = "Vendita" if a['tipo'] == 'vendite' else "Affitto"
     comune_display = display_name(a['comune'])
 
+    # Primary image
+    if a['images']:
+        img_base = f"{p}img/{a['tipo']}/{a['comune_slug']}/{a['slug']}/"
+        primary_src = img_base + a['images'][0].name
+        primary_img = f'<img class="primary" src="{primary_src}" alt="{a["titolo"]}" loading="lazy">'
+        # Alt image for hover swap
+        if len(a['images']) > 1:
+            alt_src = img_base + a['images'][1].name
+            alt_img = f'<img class="alt" src="{alt_src}" alt="{a["titolo"]}" loading="lazy">'
+        else:
+            alt_img = ''
+    else:
+        primary_img = '<div class="card-noimg">Nessuna foto</div>'
+        alt_img = ''
+
+    # Price
+    prezzo = f['prezzo'] if f['prezzo'] else ''
+
+    # Meta info
+    meta_parts = []
+    if f['mq']:
+        meta_parts.append(f'{f["mq"]} mq')
+    if f['camere']:
+        meta_parts.append(f'{f["camere"]} cam.')
+    if f.get('bagni'):
+        meta_parts.append(f'{f["bagni"]} bagn{"o" if f["bagni"] == "1" else "i"}')
+    if f['classe_energetica']:
+        meta_parts.append(f'Classe {f["classe_energetica"]}')
+    meta_html = ' · '.join(meta_parts)
+
     return f"""
-    <a href="{link}" class="annuncio-card"
+    <a href="{link}" class="card-immobile"
        data-prezzo="{parse_prezzo_num(f['prezzo']) or ''}"
        data-mq="{parse_int_field(f['mq']) or ''}"
        data-camere="{parse_int_field(f['camere']) or ''}">
-        <div class="card-img">
-            {img}
-            <span class="card-badge badge-{a['tipo']}">{badge_text}</span>
+        <div class="card-media">
+            <span class="card-badge">{badge_text}</span>
+            {primary_img}
+            {alt_img}
         </div>
         <div class="card-body">
+            <span class="card-zone">{comune_display}</span>
             <h3 class="card-title">{a['titolo']}</h3>
-            {sub}
-            {prezzo}
-            <p class="card-loc">{comune_display}</p>
+            <span class="card-price">{prezzo}</span>
+            <span class="card-meta">{meta_html}</span>
         </div>
     </a>"""
 
@@ -381,14 +397,65 @@ def page_home(data):
 
     cards = ''.join(annuncio_card(a, 0) for a in featured)
 
+    # In evidenza section
     evidenza = ''
     if cards:
         evidenza = f"""
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">In Evidenza</h2>
-            <div class="annunci-grid">{cards}
+    <section class="section reveal">
+        <div class="section-inner">
+            <h2 class="section-label">In evidenza</h2>
+            <div class="immobili-grid">{cards}
             </div>
+        </div>
+    </section>"""
+
+    # Zone cards (comuni) for vendite
+    zone_cards = ''
+    comuni_items = []
+    for tipo in ['vendite', 'affitti']:
+        for cn, cd in sorted(data[tipo].items()):
+            # avoid duplicates
+            if cd['display_name'] not in [c['name'] for c in comuni_items]:
+                n_v = len(data['vendite'].get(cn, {}).get('annunci', []) if cn in data['vendite'] else [])
+                n_a = len(data['affitti'].get(cn, {}).get('annunci', []) if cn in data['affitti'] else [])
+                # Count from both
+                total = 0
+                for t in ['vendite', 'affitti']:
+                    if cn in data[t]:
+                        total += len(data[t][cn]['annunci'])
+                comuni_items.append({
+                    'name': cd['display_name'],
+                    'slug': cd['slug'],
+                    'count': total,
+                })
+
+    if comuni_items:
+        zone_html = ''
+        for c in comuni_items:
+            zone_html += f"""
+            <a href="vendite/{c['slug']}/index.html" class="comune-card reveal">
+                <span class="comune-name">{c['name']}</span>
+                <span class="comune-sub">Bassa Romagna</span>
+                <span class="comune-count">{c['count']} annunc{'io' if c['count'] == 1 else 'i'}</span>
+                <span class="comune-arrow">&rarr;</span>
+            </a>"""
+
+        zone_cards = f"""
+    <section class="section reveal">
+        <div class="section-inner">
+            <h2 class="section-label">Zone</h2>
+            <div class="comuni-grid">{zone_html}
+            </div>
+        </div>
+    </section>"""
+
+    # CTA section
+    cta = f"""
+    <section class="cta-section reveal">
+        <div class="section-inner">
+            <h2>Cerchi casa in Romagna?</h2>
+            <p>Contattaci per una consulenza gratuita e senza impegno.</p>
+            <a href="contatti/index.html" class="btn btn-accent">Contattaci</a>
         </div>
     </section>"""
 
@@ -400,22 +467,17 @@ def page_home(data):
         <div class="hero-inner">
             <img src="assets/logo.jpg" alt="Idea Immobiliare" class="hero-logo">
             <h1>{SITE_TITLE}</h1>
-            <p class="hero-owner">{SITE_OWNER}</p>
+            <p class="hero-sub">{SITE_OWNER}</p>
             <p class="hero-tagline">{SITE_TAGLINE}</p>
-            <div class="hero-cta">
-                <a href="vendite/index.html" class="btn btn-primary">Vendite</a>
+            <div class="hero-actions">
+                <a href="vendite/index.html" class="btn btn-accent">Vendite</a>
                 <a href="affitti/index.html" class="btn btn-outline">Affitti</a>
             </div>
         </div>
     </section>
 {evidenza}
-    <section class="section section-about">
-        <div class="container">
-            <h2 class="section-title">Chi Siamo</h2>
-            <p class="about-text">{CHI_SIAMO}</p>
-            <a href="contatti/index.html" class="btn btn-primary">Contattaci</a>
-        </div>
-    </section>
+{zone_cards}
+{cta}
 
 {html_footer(0)}
 {html_end(0)}"""
@@ -423,61 +485,37 @@ def page_home(data):
 
 def page_tipo(tipo, data):
     label = "Vendite" if tipo == "vendite" else "Affitti"
+    scopo_label = "in vendita" if tipo == "vendite" else "in affitto"
 
+    # Comuni cards
     comuni_cards = ''
     for cn, cd in sorted(data[tipo].items()):
         n = len(cd['annunci'])
-        if cd['copertina']:
-            cimg = f'<img src="{cd["slug"]}/copertina{cd["copertina"].suffix}" alt="{cd["display_name"]}" loading="lazy">'
-        else:
-            cimg = f'<div class="comune-ph">{cd["display_name"][0]}</div>'
-
         comuni_cards += f"""
-        <a href="{cd['slug']}/index.html" class="comune-card">
-            <div class="comune-img">{cimg}</div>
-            <div class="comune-info">
-                <h3>{cd['display_name']}</h3>
-                <p>{n} annunc{'io' if n == 1 else 'i'}</p>
-            </div>
-        </a>"""
+            <a href="{cd['slug']}/index.html" class="comune-card reveal">
+                <span class="comune-name">{cd['display_name']}</span>
+                <span class="comune-sub">Bassa Romagna</span>
+                <span class="comune-count">{n} annunc{'io' if n == 1 else 'i'}</span>
+                <span class="comune-arrow">&rarr;</span>
+            </a>"""
 
-    all_ann = []
-    for cd in data[tipo].values():
-        all_ann.extend(cd['annunci'])
-    all_ann.sort(key=lambda x: x['mtime'], reverse=True)
-    ann_cards = ''.join(annuncio_card(a, 1) for a in all_ann)
-
-    filters = ''
-    if all_ann:
-        filters = filters_bar()
-
-    empty = '' if all_ann else '<p class="no-results">Nessun annuncio disponibile.</p>'
+    total = sum(len(cd['annunci']) for cd in data[tipo].values())
 
     return f"""{html_head(label, 1)}
 <body>
 {html_nav(1, tipo)}
 
-    <section class="page-header">
-        <div class="container">
-            <h1 class="page-title">{label}</h1>
+    <section class="page-intro reveal">
+        <div class="section-inner">
+            <h1>{label}</h1>
+            <p>{total} immobil{'e' if total == 1 else 'i'} {scopo_label} nella Bassa Romagna.</p>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Zone</h2>
+    <section class="section reveal">
+        <div class="section-inner">
             <div class="comuni-grid">{comuni_cards}
             </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Tutti gli annunci</h2>
-            {filters}
-            <div class="annunci-grid" id="annunci-grid">{ann_cards}
-            </div>
-            {empty}
         </div>
     </section>
 
@@ -492,11 +530,6 @@ def page_comune(tipo, comune_name, cd, data):
     cards = ''.join(annuncio_card(a, 2) for a in annunci)
     n = len(annunci)
 
-    header_bg = ''
-    if cd['copertina']:
-        img_p = f"copertina{cd['copertina'].suffix}"
-        header_bg = f' style="background-image:url(\'{img_p}\')"'
-
     filters = filters_bar() if annunci else ''
     empty = '' if annunci else '<p class="no-results">Nessun annuncio per questa zona.</p>'
 
@@ -504,24 +537,24 @@ def page_comune(tipo, comune_name, cd, data):
 <body>
 {html_nav(2, tipo)}
 
-    <section class="comune-header"{header_bg}>
-        <div class="comune-header-overlay">
-            <div class="container">
-                <nav class="breadcrumb">
-                    <a href="../../index.html">Home</a> &rsaquo;
-                    <a href="../index.html">{label}</a> &rsaquo;
-                    <span>{dn}</span>
-                </nav>
-                <h1 class="page-title">{dn}</h1>
-                <p class="page-sub">{n} annunc{'io' if n == 1 else 'i'} disponibil{'e' if n == 1 else 'i'}</p>
-            </div>
+    <section class="page-intro reveal">
+        <div class="section-inner">
+            <nav class="breadcrumb">
+                <a href="../../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">{label}</a>
+                <span class="sep">/</span>
+                <span>{dn}</span>
+            </nav>
+            <h1>{dn}</h1>
+            <p>{n} annunc{'io' if n == 1 else 'i'} disponibil{'e' if n == 1 else 'i'}.</p>
         </div>
     </section>
 
     <section class="section">
-        <div class="container">
+        <div class="section-inner">
             {filters}
-            <div class="annunci-grid" id="annunci-grid">{cards}
+            <div class="immobili-grid" id="annunci-grid">{cards}
             </div>
             {empty}
         </div>
@@ -534,111 +567,140 @@ def page_comune(tipo, comune_name, cd, data):
 def page_annuncio(a):
     f = a['fields']
     tipo_label = "Vendite" if a['tipo'] == 'vendite' else "Affitti"
-    badge_label = "Vendita" if a['tipo'] == 'vendite' else "Affitto"
     comune_dn = display_name(a['comune'])
     p = rel(3)
 
-    # Gallery
-    slides = ''
-    thumbs = ''
+    # Gallery images
+    gallery_imgs = ''
+    thumb_imgs = ''
+    all_gallery = ''
     for i, img in enumerate(a['images']):
         src = f"{p}img/{a['tipo']}/{a['comune_slug']}/{a['slug']}/{img.name}"
         act = ' active' if i == 0 else ''
-        slides += f'        <div class="gallery-slide{act}" data-index="{i}"><img src="{src}" alt="{a["titolo"]} — Foto {i+1}"></div>\n'
-        thumbs += f'        <button class="gallery-thumb{act}" data-index="{i}"><img src="{src}" alt="Miniatura {i+1}"></button>\n'
+        gallery_imgs += f'            <div class="gallery-slide{act}" data-index="{i}"><img src="{src}" alt="{a["titolo"]} — Foto {i+1}"></div>\n'
+        thumb_imgs += f'            <button class="gallery-thumb{act}" data-index="{i}"><img src="{src}" alt="Miniatura {i+1}"></button>\n'
+        all_gallery += f'        <div class="gallery-grid-item"><img src="{src}" alt="{a["titolo"]} — Foto {i+1}" loading="lazy"></div>\n'
 
     nav_btns = ''
     if len(a['images']) > 1:
         nav_btns = """
-            <button class="gallery-prev" onclick="galleryPrev()">&lsaquo;</button>
-            <button class="gallery-next" onclick="galleryNext()">&rsaquo;</button>"""
+            <button class="gallery-prev">&lsaquo;</button>
+            <button class="gallery-next">&rsaquo;</button>"""
 
-    prezzo = f'<div class="detail-price">{f["prezzo"]}</div>' if f['prezzo'] else ''
-    sub = f'<p class="detail-sub">{f["sottotitolo"]}</p>' if f['sottotitolo'] else ''
-    classe = f'<span class="badge-classe">Classe {f["classe_energetica"]}</span>' if f['classe_energetica'] else ''
-
-    # Dettagli rapidi
-    details = []
+    # Data grid items
+    data_items = ''
     if f['mq']:
-        details.append(f'<span class="detail-chip">{f["mq"]} mq</span>')
+        data_items += f'                <div class="data-item"><span class="data-label">Superficie</span><span class="data-value">{f["mq"]} mq</span></div>\n'
     if f['camere']:
-        details.append(f'<span class="detail-chip">{f["camere"]} camere</span>')
+        data_items += f'                <div class="data-item"><span class="data-label">Camere</span><span class="data-value">{f["camere"]}</span></div>\n'
+    if f.get('bagni'):
+        data_items += f'                <div class="data-item"><span class="data-label">Bagni</span><span class="data-value">{f["bagni"]}</span></div>\n'
     if f['classe_energetica']:
-        details.append(f'<span class="detail-chip">Classe {f["classe_energetica"]}</span>')
-    chips = f'<div class="detail-chips">{"".join(details)}</div>' if details else ''
+        data_items += f'                <div class="data-item"><span class="data-label">Classe energetica</span><span class="data-value">{f["classe_energetica"]}</span></div>\n'
+    tipo_label_badge = "Vendita" if a['tipo'] == 'vendite' else "Affitto"
+    data_items += f'                <div class="data-item"><span class="data-label">Tipo</span><span class="data-value">{tipo_label_badge}</span></div>\n'
 
-    # Descrizione
+    # Description
     desc = ''
     if f['descrizione']:
         paras = [pp.strip() for pp in f['descrizione'].split('\n') if pp.strip()]
-        desc = '\n'.join(f'                <p>{pp}</p>' for pp in paras)
+        desc_body = '\n'.join(f'                <p>{pp}</p>' for pp in paras)
+        desc = f"""
+            <div class="description">
+                <h3>Descrizione</h3>
+{desc_body}
+            </div>"""
 
-    # Mappa
+    # Gallery grid (all photos)
+    gallery_grid = ''
+    if len(a['images']) > 1:
+        gallery_grid = f"""
+            <div class="gallery-grid">
+                <h3>Tutte le foto</h3>
+{all_gallery}            </div>"""
+
+    # Map section
     map_section = ''
-    if f['indirizzo']:
+    if f['indirizzo'] or comune_dn:
+        zone_name = comune_dn
         map_section = f"""
-            <section class="detail-block">
-                <h2>Posizione</h2>
-                <div class="detail-map" id="detail-map" data-address="{f['indirizzo']}"></div>
-                <p class="map-address">{f['indirizzo']}</p>
-            </section>"""
+            <div class="map-section" id="property-map" data-zone="{zone_name}" data-address="{f['indirizzo']}">
+                <h3>Posizione</h3>
+                <div class="map-container" id="detail-map"></div>
+            </div>"""
 
-    # CTA
+    # Contact form
     email_subject = f"Informazioni: {a['titolo']}"
-    phone_btn = ''
-    if CONTACT_PHONE:
-        phone_btn = f'<a href="tel:{CONTACT_PHONE}" class="btn btn-primary mobile-only">Chiama</a>'
+    contact_form = f"""
+            <div class="contact-form-section">
+                <h3>Richiedi informazioni</h3>
+                <form class="form-card" id="contact-form"
+                      data-email="{CONTACT_EMAIL}"
+                      data-subject="{email_subject}">
+                    <input type="text" name="nome" placeholder="Il tuo nome" required>
+                    <input type="email" name="email" placeholder="La tua email" required>
+                    <input type="tel" name="telefono" placeholder="Telefono (opzionale)">
+                    <textarea name="messaggio" rows="4" placeholder="Messaggio" required></textarea>
+                    <button type="submit" class="btn btn-accent">Invia richiesta</button>
+                </form>
+            </div>"""
+
+    # Ref code
+    ref_code = a['slug'].upper()[:8]
 
     return f"""{html_head(a['titolo'], 3)}
 <body>
 {html_nav(3, a['tipo'])}
 
-    <section class="section detail-page">
-        <div class="container">
+    <section class="property-page">
+        <div class="section-inner">
             <nav class="breadcrumb">
-                <a href="{p}index.html">Home</a> &rsaquo;
-                <a href="{p}{a['tipo']}/index.html">{tipo_label}</a> &rsaquo;
-                <a href="{p}{a['tipo']}/{a['comune_slug']}/index.html">{comune_dn}</a> &rsaquo;
+                <a href="{p}index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="{p}{a['tipo']}/index.html">{tipo_label}</a>
+                <span class="sep">/</span>
+                <a href="{p}{a['tipo']}/{a['comune_slug']}/index.html">{comune_dn}</a>
+                <span class="sep">/</span>
                 <span>{a['titolo']}</span>
             </nav>
 
-            <div class="detail-header">
-                <div>
-                    <span class="card-badge badge-{a['tipo']}">{badge_label}</span>
-                    <h1 class="detail-title">{a['titolo']}</h1>
-                    {sub}
-                    {chips}
+            <div class="property-hero">
+                <div class="gallery" id="gallery">
+                    <div class="gallery-main">
+{gallery_imgs}{nav_btns}
+                        <span class="gallery-counter" id="gallery-counter"></span>
+                    </div>
+                    <div class="gallery-thumbs">
+{thumb_imgs}                    </div>
                 </div>
-                {prezzo}
+
+                <div class="property-info">
+                    <span class="property-zone">{comune_dn}</span>
+                    <h1 class="property-title">{a['titolo']}</h1>
+                    <span class="property-price">{f['prezzo']}</span>
+                    <span class="property-ref">Rif. {ref_code}</span>
+                    <div class="property-actions">
+                        <a href="tel:{CONTACT_PHONE.replace(' ', '')}" class="btn btn-accent">Chiama {CONTACT_PHONE}</a>
+                        <a href="mailto:{CONTACT_EMAIL}?subject={email_subject}" class="btn btn-outline">Scrivi email</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="gallery" id="gallery">
-                <div class="gallery-main">
-{slides}{nav_btns}
-                    <span class="gallery-counter" id="gallery-counter"></span>
-                </div>
-                <div class="gallery-thumbs">
-{thumbs}                </div>
-            </div>
-
-            <div class="detail-content">
-                <section class="detail-block">
-                    <h2>Descrizione</h2>
+            <div class="property-body">
+                <div class="data-grid">
+{data_items}                </div>
 {desc}
-                </section>
+{gallery_grid}
 {map_section}
-                <div class="detail-cta">
-                    <a href="mailto:{CONTACT_EMAIL}?subject={email_subject}" class="btn btn-primary">Scrivi un'email</a>
-                    {phone_btn}
-                </div>
+{contact_form}
             </div>
         </div>
     </section>
 
     <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <button class="lightbox-prev" onclick="lightboxPrev()">&lsaquo;</button>
-        <button class="lightbox-next" onclick="lightboxNext()">&rsaquo;</button>
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-prev">&lsaquo;</button>
+        <button class="lightbox-next">&rsaquo;</button>
         <div class="lightbox-body">
             <img id="lightbox-img" src="" alt="">
         </div>
@@ -650,58 +712,78 @@ def page_annuncio(a):
 
 
 def page_contatti():
-    phone_item = (
-        f'<p><a href="tel:{CONTACT_PHONE}">{CONTACT_PHONE}</a></p>'
-        if CONTACT_PHONE
-        else '<p><em>In arrivo</em></p>'
-    )
-    hours_item = (
-        f'<p>{CONTACT_HOURS}</p>'
-        if CONTACT_HOURS
-        else '<p><em>In arrivo</em></p>'
-    )
-    email_btn = f'<a href="mailto:{CONTACT_EMAIL}" class="btn btn-primary">Scrivi un\'email</a>'
-    phone_btn = ''
-    if CONTACT_PHONE:
-        phone_btn = f'<a href="tel:{CONTACT_PHONE}" class="btn btn-primary mobile-only">Chiama</a>'
-
-    return f"""{html_head("Contatti", 1)}
+    return f"""{html_head("Info e Contatti", 1)}
 <body>
 {html_nav(1, 'contatti')}
 
-    <section class="page-header">
-        <div class="container">
-            <h1 class="page-title">Contatti</h1>
+    <section class="hero hero-small">
+        <div class="hero-inner">
+            <h1>Info &amp; Contatti</h1>
+            <p class="hero-tagline">Siamo a tua disposizione per qualsiasi informazione.</p>
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="contacts-grid">
-                <div class="contacts-info">
+    <section class="section reveal">
+        <div class="section-inner">
+            <div class="contact-grid">
+                <div class="contact-info-col">
+                    <h2>I nostri recapiti</h2>
                     <div class="contact-row">
-                        <h3>Indirizzo</h3>
-                        <p>{CONTACT_ADDRESS}</p>
+                        <span class="contact-label">Indirizzo</span>
+                        <span class="contact-value">{CONTACT_ADDRESS}</span>
                     </div>
                     <div class="contact-row">
-                        <h3>Email</h3>
-                        <p><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></p>
+                        <span class="contact-label">Telefono</span>
+                        <span class="contact-value"><a href="tel:{CONTACT_PHONE.replace(' ', '')}">{CONTACT_PHONE}</a></span>
                     </div>
                     <div class="contact-row">
-                        <h3>Telefono</h3>
-                        {phone_item}
+                        <span class="contact-label">Cellulare</span>
+                        <span class="contact-value"><a href="tel:{CONTACT_CELL.replace(' ', '')}">{CONTACT_CELL}</a></span>
                     </div>
                     <div class="contact-row">
-                        <h3>Orari</h3>
-                        {hours_item}
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value"><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></span>
                     </div>
-                    <div class="contact-cta">
-                        {email_btn}
-                        {phone_btn}
+                    <div class="contact-row">
+                        <span class="contact-label">Orari</span>
+                        <span class="contact-value">{CONTACT_HOURS_1}<br>{CONTACT_HOURS_2}</span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="contact-label">P.IVA</span>
+                        <span class="contact-value">{CONTACT_PIVA}</span>
                     </div>
                 </div>
-                <div class="contacts-map" id="contacts-map" data-address="{CONTACT_ADDRESS}"></div>
+
+                <div class="contact-form-col">
+                    <h2>Scrivici</h2>
+                    <form class="form-card" id="contact-form"
+                          data-email="{CONTACT_EMAIL}"
+                          data-subject="Contatto dal sito">
+                        <input type="text" name="nome" placeholder="Il tuo nome" required>
+                        <input type="email" name="email" placeholder="La tua email" required>
+                        <input type="tel" name="telefono" placeholder="Telefono (opzionale)">
+                        <textarea name="messaggio" rows="5" placeholder="Come possiamo aiutarti?" required></textarea>
+                        <button type="submit" class="btn btn-accent">Invia messaggio</button>
+                    </form>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <section class="section reveal">
+        <div class="section-inner">
+            <h2 class="section-label">Dove siamo</h2>
+            <div class="map-container" id="office-map"
+                 data-address="{CONTACT_ADDRESS}"
+                 data-lat="44.4213"
+                 data-lng="11.9110"></div>
+        </div>
+    </section>
+
+    <section class="section chi-siamo reveal">
+        <div class="section-inner">
+            <h2>Chi siamo</h2>
+            <p>{CHI_SIAMO}</p>
         </div>
     </section>
 
@@ -712,29 +794,26 @@ def page_contatti():
 def filters_bar():
     return """
             <div class="filters-bar" id="filters-bar">
-                <div class="filter-group">
-                    <label for="filter-prezzo-min">Prezzo min</label>
-                    <input type="number" id="filter-prezzo-min" placeholder="€ min">
-                </div>
-                <div class="filter-group">
-                    <label for="filter-prezzo-max">Prezzo max</label>
-                    <input type="number" id="filter-prezzo-max" placeholder="€ max">
-                </div>
-                <div class="filter-group">
-                    <label for="filter-mq-min">Mq min</label>
-                    <input type="number" id="filter-mq-min" placeholder="mq">
-                </div>
-                <div class="filter-group">
-                    <label for="filter-camere">Camere</label>
-                    <select id="filter-camere">
-                        <option value="">Tutte</option>
-                        <option value="1">1+</option>
-                        <option value="2">2+</option>
-                        <option value="3">3+</option>
-                        <option value="4">4+</option>
-                    </select>
-                </div>
-                <button class="btn btn-small" id="filter-reset">Reset</button>
+                <select id="filter-prezzo" class="filter-select">
+                    <option value="">Prezzo</option>
+                    <option value="0-100000">Fino a €100.000</option>
+                    <option value="100000-200000">€100.000 — €200.000</option>
+                    <option value="200000-300000">€200.000 — €300.000</option>
+                    <option value="300000-99999999">Oltre €300.000</option>
+                </select>
+                <select id="filter-locali" class="filter-select">
+                    <option value="">Locali</option>
+                    <option value="1">1+</option>
+                    <option value="2">2+</option>
+                    <option value="3">3+</option>
+                    <option value="4">4+</option>
+                </select>
+                <select id="filter-sort" class="filter-select">
+                    <option value="">Ordina</option>
+                    <option value="prezzo-asc">Prezzo crescente</option>
+                    <option value="prezzo-desc">Prezzo decrescente</option>
+                    <option value="recenti">Più recenti</option>
+                </select>
             </div>"""
 
 
@@ -820,7 +899,6 @@ def build():
         for cn, cd in data[tipo].items():
             cd_dir = td / cd['slug']
             cd_dir.mkdir(parents=True, exist_ok=True)
-            # Copia copertina anche qui per header background
             if cd['copertina']:
                 shutil.copy2(cd['copertina'], cd_dir / f"copertina{cd['copertina'].suffix}")
             write_page(cd_dir / "index.html", page_comune(tipo, cn, cd, data))
